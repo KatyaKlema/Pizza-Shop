@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block page %}NAME{% endblock %}
+
+{% block sidebar %}
+	<div class="text-center">
+	    <br>
+	    <br>
+	    <h4>NAME</h4>
+  	</div>
+
+
+
+  	<div class="list-group">
+	    <span class="text-uppercase">SHOP</span>
+	    <a href="{% url 'shop-shop' %}" class="list-group-item">SHOP</a>
+
+	    <span class="text-uppercase">PROFILE</span>
+	    <a href="{% url 'shop-account' %}" class="list-group-item">PROFILE</a>
+	  </div>
+
+	  <div class="text-center">
+	    <a href="{% url 'shop-sign-out' %}?next={{ request.path }}" class="btn btn-red">Выход</a>
+	</div>
+
+{% endblock %}
