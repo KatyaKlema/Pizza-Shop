@@ -10,11 +10,6 @@
       </h4>
     </div>
     <div class="card-body">
-      <div class="text-right">
-        <a href="{% url 'shop-add-product' %}" class="btn btn-red">ADD PRODUCT</a>
-        <br>
-        <br>
-      </div>
       <table class="table table-bordered table-hover table-striped">
         <thead>
           <tr class="bg-danger text-white text-center">
@@ -36,8 +31,8 @@
               <td class="text-center"><img class="rounded"
                 src="{{ MEDIA_URL }}{{ product.image }}" width="50" height="50"></td>
               <td>
-              	<a href="{% url 'shop-delete-product' product.id %}">DELETE</a>
-              	<a href="{% url 'shop-choose-product' product.id %}">CHOOSE</a>
+                <a href="{% url 'shop-return-product' product.id %}">DELETE</a>
+                <a href="{% url 'shop-pick-product' product.id %}">LOOK</a>
               </td>
             </tr>
           {% endfor %}

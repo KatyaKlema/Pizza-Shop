@@ -1,5 +1,5 @@
 from django.contrib import admin
-#from shopapp.models import usr
+from shopapp.models import Product
 
 # Register your models here.
-#admin.site.register(usr)
+admin.site.register(Product)
