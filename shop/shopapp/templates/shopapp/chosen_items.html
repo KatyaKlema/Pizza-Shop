@@ -6,7 +6,7 @@
   <div class="card">
     <div class="card-header bg-ruby">
       <h4 class="card-title text-center text-white">
-        SHOP
+        CHOSEN ITEMS
       </h4>
     </div>
     <div class="card-body">
@@ -25,14 +25,13 @@
           {% for product in products %}
             <tr>
               <td scope="row">{{ product.id }}</td>
-              <td><a href="{% url 'shop-edit-product' product.id %}">{{ product.name }}</a></td>
+              <td><a href="{% url 'shop-pick-product' product.id %}">{{ product.name }}</a></td>
               <td>{{ product.short_description }}</td>
               <td>{{ product.price }}</td>
               <td class="text-center"><img class="rounded"
                 src="{{ MEDIA_URL }}{{ product.image }}" width="50" height="50"></td>
               <td>
                 <a href="{% url 'shop-return-product' product.id %}">DELETE</a>
-                <a href="{% url 'shop-pick-product' product.id %}">LOOK</a>
               </td>
             </tr>
           {% endfor %}
@@ -53,6 +52,11 @@
   	{% for product in products %}
     <div class="carousel-item">
       <img class="d-block w-100" src="{{ MEDIA_URL }}{{ product.image }}" alt="slide" height="300">
+      <div class="carousel-caption d-none d-md-block">
+        <h5>{{ product.name }}</h5>
+        <h6>{{ product.price }}</h6>
+        <p>{{ product.short_description }}</p>
+      </div>
     </div>
     {% endfor %}
   </div>

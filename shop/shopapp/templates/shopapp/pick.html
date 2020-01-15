@@ -12,6 +12,12 @@
     <div class="card-body">
       <img class="d-block w-100" src="{{ MEDIA_URL }}{{ product.image }}" alt="slide" height="500">
     </div>
+    <form action="{{ page }}">
+      <button type="submit" class="btn btn-red float-right">BACK</button>
+    </form>
+    <form action="{% url 'shop-pick-product' product.id %}">
+      <button type="submit" class="btn btn-red float-right">CHOOSE</button>
+    </form>
   </div>
 </div>
 {% endblock %}

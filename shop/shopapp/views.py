@@ -27,14 +27,15 @@ def shop_account(request):
 
 @login_required(login_url='/shopapp/sign_in/')
 def shop_shop(request):
-	products = Product.objects.order_by("-id")
-	return render(request, 'shopapp/shop.html', {
-		'products': products
-	})
+    products = Product.objects.order_by("-id")
+    if request.user.is_superuser == True:
+        return render(request, 'shopapp/shop.html', {'products': products})
+    else:
+        return render(request, 'shopapp/shop_for_users.html', {'products': products})
 
 @login_required(login_url='/shopapp/sign_in/')
 def shop_chosen_items(request):
-	products = Product.objects.filter(owner=request.user).order_by("-id")
+	products = Product.objects.filter(owners=request.user).order_by("-id")
 	return render(request, 'shopapp/chosen_items.html', {
 		'products': products
 	})
@@ -48,7 +49,6 @@ def shop_add_product(request):
         if form.is_valid():
             product = form.save(commit=False)
             product.author = request.user
-            product.owner = request.user
             product.save()
             return redirect(shop_shop)
 
@@ -74,25 +74,28 @@ def shop_edit_product(request, product_id):
 @login_required(login_url='/shop/sign_in/')
 def shop_pick_product(request, product_id):
     product = Product.objects.get(id = product_id)
-
     return render(request, 'shopapp/pick.html', {
-        'product': product
+        'product': product,
+        'page': request.path
     })
 
 @login_required(login_url='/shop/sign_in/')
 def shop_choose_product(request, product_id):
     product = Product.objects.get(id = product_id)
-    product.owner = request.user
-    return render(request, 'shopapp/pick.html', {
-        'product': product
-    })
+    product.owners.add(request.user)
+    product.save()
+    if request.user.is_superuser == True:
+        return render(request, 'shopapp/shop.html', {'products': Product.objects.order_by("-id")})
+    else:
+        return render(request, 'shopapp/shop_for_users.html', {'products': Product.objects.order_by("-id")})
 
 @login_required(login_url='/shop/sign_in/')
 def shop_return_product(request, product_id):
     product = Product.objects.get(id = product_id)
-    product.owner = None
+    product.owners.clear()
+    product.save()
     return render(request, 'shopapp/chosen_items.html', {
-        'product': product
+        'products': Product.objects.filter(owners=request.user).order_by("-id")
     })
 
 @login_required(login_url='/shop/sign_in/')
